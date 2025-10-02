@@ -16,7 +16,7 @@ end
 
 function handleCollision()
     if ballY - 20 <= 20 or ballY + 20 >= love.graphics.getHeight() - 25 then
-        ballSpeedY = ballSpeedY * -1 
+        ballSpeedY = ballSpeedY * -1
     end
 
     if checkCollision(ballX, ballY, 20, pad1X, pad1Y, 30, 130) then
@@ -51,16 +51,16 @@ function scoreBoard()
 end
 
 -- keyboard Events
-function keyboardEvents()
+function keyboardEvents(dt)
     if love.keyboard.isDown('w') and pad1Y > 20 then
-        pad1Y = pad1Y - 4
+        pad1Y = pad1Y - (dt * 300)
     elseif love.keyboard.isDown('s') and pad1Y < 445 then
-        pad1Y = pad1Y + 4
+        pad1Y = pad1Y + (dt * 300)
     end
     if love.keyboard.isDown('up') and pad2Y > 20 then
-        pad2Y = pad2Y - 4
+        pad2Y = pad2Y - (dt *300)
     elseif love.keyboard.isDown('down') and pad2Y < 445 then
-        pad2Y = pad2Y + 4
+        pad2Y = pad2Y + (dt * 300)
     end
 end
 
@@ -84,7 +84,6 @@ function love.load()
     ballX = 400
     ballY = 270
 
-    wallImage = love.graphics.newImage('wall.png')
     base = 100
     incr = 128
     count = 3
@@ -103,11 +102,13 @@ function love.load()
     pad2X = 760;
     pad2Y = 10;
 
-    padImage = love.graphics.newImage('Assets/Sprites/Tiles/Double/bricks_brown.png')
-    ballImage = love.graphics.newImage('Assets/Sprites/Tiles/Double/hud_player_purple.png')
+    -- Images
+    wallImage = love.graphics.newImage('Images/wall.png')
+    padImage = love.graphics.newImage('Images/bricks_brown.png')
+    ballImage = love.graphics.newImage('Images/hud_player_purple.png')
     score1Image = love.graphics.newImage('Points/img_'..p1Score..'.png')
     score2Image = love.graphics.newImage('Points/img_'..p1Score..'.png')
-    bgImage = love.graphics.newImage('bg_trees.png')
+    bgImage = love.graphics.newImage('Images/bg_trees.png')
 
     -- audio 
     padSound = love.audio.newSource('audio/pad.ogg', 'static')
@@ -117,8 +118,8 @@ end
 
 function love.update(dt)
     ballMove(dt)
-    keyboardEvents()
-    handleCollision()        
+    keyboardEvents(dt)
+    handleCollision()
 end
 
 function love.draw()
