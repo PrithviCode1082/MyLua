@@ -13,7 +13,7 @@ function checkCollision(cx, cy, radius, rx, ry, rw, rh)
     return distanceSquared <= (radius * radius)
 end
 
-
+-- Handle collition with paddles, walls 
 function handleCollision()
     if ballY - 20 <= 20 or ballY + 20 >= love.graphics.getHeight() - 25 then
         ballSpeedY = ballSpeedY * -1
@@ -45,6 +45,7 @@ function handleCollision()
     end
 end
 
+-- Scoreboard
 function scoreBoard()
     love.graphics.draw(score1Image, 150, 50, 0 , 0.5, 0.5)
     love.graphics.draw(score2Image, 600, 50, 0 , 0.5, 0.5)
@@ -69,11 +70,13 @@ function pad(x, y)
     return love.graphics.rectangle("fill", x, y, 30, 130)
 end
 
+-- Ball
 function ballMove(dt)
     ballX = ballX + (ballSpeedX * dt)
     ballY = ballY + (ballSpeedY * dt)
 end
 
+-- Walls
 function wall(x, y, r)
     return love.graphics.draw(wallImage, x, y, r, 1, 1)
 end
@@ -113,7 +116,6 @@ function love.load()
     -- audio 
     padSound = love.audio.newSource('audio/pad.ogg', 'static')
     pointSound = love.audio.newSource('audio/point.ogg', 'static')
-    -- collision = false
 end
 
 function love.update(dt)
@@ -142,8 +144,5 @@ function love.draw()
         wall((base + (i - 1) * incr), 575, 0)
     end
 
-    -- if collision then
-    --     collision = false
-    -- end
     scoreBoard()
 end
