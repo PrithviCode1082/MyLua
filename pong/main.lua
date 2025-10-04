@@ -12,17 +12,6 @@ function printGraphics()
     love.graphics.setFont(customFont)
     love.graphics.print("PONG", 500, 470, 0, 1, 1)
     love.graphics.setColor(1, 1, 1)
-
-    love.graphics.setColor(0.321, 0.718, 0.533)
-    love.graphics.setFont(customMessageFont)
-    love.graphics.print("Start", 370, 137, 0, 1, 1)
-    love.graphics.print("Continue", 600, 68, 0, 1, 1)
-    love.graphics.print("Settings", 600, 235, 0, 1, 1)
-    love.graphics.setColor(1, 1, 1)
-
-    love.graphics.setColor(1, 1, 1)
-    love.graphics.print("Quit", 93, 485, 0, 1, 1)
-    love.graphics.setColor(1, 1, 1)
 end
 
 function printMessage()
@@ -30,7 +19,7 @@ function printMessage()
     love.graphics.setFont(customMessageFont)
     love.graphics.print("Start", 370, 137, 0, 1, 1)
     love.graphics.print("Continue", 600, 68, 0, 1, 1)
-    love.graphics.print("Settings", 600, 235, 0, 1, 1)
+    love.graphics.print("Settings", 600, 240, 0, 1, 1)
     love.graphics.setColor(1, 1, 1)
 
     love.graphics.setColor(1, 1, 1)
