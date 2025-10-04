@@ -80,6 +80,13 @@ function love.load()
     panelBG3 = love.graphics.newImage('Images/menuImage/panel.png')
     exit = love.graphics.newImage('Images/menuImage/exit.png')
 
+    -- characters
+    ch1 = love.graphics.newImage('Images/menuImage/hug.png');
+    ch2 = love.graphics.newImage('Images/menuImage/hpi.png');
+    ch3 = love.graphics.newImage('Images/menuImage/hup.png');
+    ch4 = love.graphics.newImage('Images/menuImage/huy.png');
+    ch5 = love.graphics.newImage('Images/menuImage/heart.png');
+
     -- Font
     customFont = love.graphics.newFont("Images/menuImage/PG.otf", 80)
     customMessageFont = love.graphics.newFont("Images/menuImage/PG.otf", 40)
@@ -100,4 +107,12 @@ function love.draw()
     printGraphics()
     printMessage()
     mouseEvents()
+
+    love.graphics.draw(ch1, 420, 420, 0, 0.5, 0.5)
+    love.graphics.draw(ch2, 650, 420, 0, 0.5, 0.5)
+    love.graphics.draw(ch3, 420, 520, 0, 0.5, 0.5)
+    love.graphics.draw(ch4, 650, 520, 0, 0.5, 0.5)
+    love.graphics.draw(ch5, 535, 400, 0, 0.5, 0.5)
+
+
 end
