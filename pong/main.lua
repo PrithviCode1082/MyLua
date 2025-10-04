@@ -38,6 +38,38 @@ function printMessage()
     love.graphics.setColor(1, 1, 1)
 end
 
+function isMouseOver(image, x, y)
+    menuWidth = image:getWidth() * 2
+    menuHeight = image:getHeight() * 1.5
+
+    if mouseX > x and mouseX < x + menuWidth and
+    mouseY > y and mouseY < y + menuHeight then
+        return true
+    else
+        return false
+    end
+end
+
+function mouseEvents()
+    isHover = false
+    if isMouseOver(panelBG1, 320, 120) then
+        isHover = true
+    elseif isMouseOver(panelBG1, 570, 50) then
+        isHover = true
+    elseif isMouseOver(panelBG3, 570, 220) then
+        isHover = true
+    elseif isMouseOver(exit, 30, 470) then
+        isHover = true
+    end
+
+    if isHover then
+        love.graphics.draw(pointerImage, mouseX, mouseY, 0, 1.5, 1.5)
+    else
+        love.graphics.draw(cursorImage, mouseX, mouseY, 0, 1.5, 1.5)
+    end
+end
+
+
 function love.load()
     love.window.setTitle("PONG")
     -- Images
@@ -51,15 +83,21 @@ function love.load()
     -- Font
     customFont = love.graphics.newFont("Images/menuImage/PG.otf", 80)
     customMessageFont = love.graphics.newFont("Images/menuImage/PG.otf", 40)
+    
+    -- cursor
+    cursorImage = love.graphics.newImage('Images/menuImage/cursor.png')
+    pointerImage = love.graphics.newImage('Images/menuImage/pointer.png')
+    isHover = false
+    love.mouse.setVisible(false)
 
 end
 
 function love.update(dt)
-
+    mouseX, mouseY = love.mouse.getPosition()
 end
 
 function love.draw()
     printGraphics()
     printMessage()
-    
+    mouseEvents()
 end
