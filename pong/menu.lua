@@ -1,6 +1,8 @@
 data = require("data.data")
 
 local M = {}
+M.isClicked = false
+M.clickedText = ""
 
 -- Check Hovering
 function isHovering(image, x, y)
@@ -56,7 +58,9 @@ function mouseEvents()
 		if btn.isHovered then
 			love.graphics.draw(pointerImage, mouseX, mouseY, 0, 1.5, 1.5)
 			if isClicked(btn) then
-				love.graphics.print("Clicked", 40, 40)
+				M.isClicked = true
+				M.clickedText = btn.message.text;
+				-- love.graphics.print("Clicked", 40, 40)
 			end
 			goto continue
 		else
