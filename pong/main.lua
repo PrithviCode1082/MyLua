@@ -43,7 +43,7 @@ end
 
 function isClicked(btn)
 	local mx, my = love.mouse.getPosition()
-	local w, h = btn.image:getWidth(), btn.image:getHeight()
+	local w, h = btn.image:getWidth() * 2, btn.image:getHeight() * 1.5
 	return love.mouse.isDown(1) and mx > btn.x and mx < btn.x + w and my > btn.y and my < btn.y + h
 end
 
