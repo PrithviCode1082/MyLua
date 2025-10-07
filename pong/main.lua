@@ -23,7 +23,6 @@ function printGraphics()
 	printObjects()
 
 	-- Buttons
-	isHovered = false
 	for _, btn in pairs(data.buttons) do
 		love.graphics.draw(btn.image, btn.x, btn.y, 0, 2, 1.5)
 		if btn.message.text == "Exit" then
@@ -34,19 +33,33 @@ function printGraphics()
 		love.graphics.print(btn.message.text, btn.message.x, btn.message.y, 0, 0.5, 0.5)
 		love.graphics.setColor(1, 1, 1)
 
-		if isHovered then
+		if isHovering(btn.image, btn.x, btn.y) then
+			btn.isHovered = true
+		else
+			btn.isHovered = false
+		end
+	end
+end
+
+function isClicked(btn)
+	local mx, my = love.mouse.getPosition()
+	local w, h = btn.image:getWidth(), btn.image:getHeight()
+	return love.mouse.isDown(1) and mx > btn.x and mx < btn.x + w and my > btn.y and my < btn.y + h
+end
+
+function mouseEvents()
+	for _, btn in pairs(data.buttons) do
+		if btn.isHovered then
+			love.graphics.draw(pointerImage, mouseX, mouseY, 0, 1.5, 1.5)
+			if isClicked(btn) then
+				love.graphics.print("Clicked", 40, 40)
+			end
 			goto continue
 		else
-			isHovered = isHovering(btn.image, btn.x, btn.y)
-			if isHovered then
-				love.graphics.draw(pointerImage, mouseX, mouseY, 0, 1.5, 1.5)
-			else
-				love.graphics.draw(cursorImage, mouseX, mouseY, 0, 1.5, 1.5)
-			end
+			love.graphics.draw(cursorImage, mouseX, mouseY, 0, 1.5, 1.5)
 		end
-
-		::continue::
 	end
+	::continue::
 end
 
 function printMessage()
@@ -91,4 +104,5 @@ end
 function love.draw()
 	printGraphics()
 	printMessage()
+	mouseEvents()
 end
