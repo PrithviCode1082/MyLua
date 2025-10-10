@@ -1,32 +1,37 @@
 local Game = require("game")
 local Menu = require("menu")
 local pauseMenu = require("pauseMenu")
+local data = require("data.data")
 
-local events = { Game, Menu, pauseMenu }
+-- local events = {Game, Menu, pauseMenu}
+function love.keypressed(key)
+    if key == "escape" and data.state == "Game" then
+        data.state = "Pause"
+    end
+end
 
 function love.load()
-	-- Menu.load()
-	-- Game.load()
-	-- pauseMenu.load()
-	events[1].load()
+    Menu.load()
+    Game.load()
+    pauseMenu.load()
 end
 
 function love.update(dt)
-	-- if Menu.isClicked and Menu.clickedText == "Start" then
-	-- 	Game.update(dt)
-	-- else
-	-- 	Menu.update(dt)
-	-- end
-	-- pauseMenu.update(dt)
-	events[1].update(dt)
+    if data.state == "Menu" then
+        Menu.update(dt)
+    elseif data.state == "Game" then
+        Game.update(dt)
+    elseif data.state == "Pause" then
+        pauseMenu.update(dt)
+    end
 end
 
 function love.draw()
-	-- if Menu.isClicked and Menu.clickedText == "Start" then
-	-- 	Game.draw()
-	-- else
-	-- 	Menu.draw()
-	-- end
-	-- pauseMenu.draw()
-	events[1].draw()
+    if data.state == "Menu" then
+        Menu.draw()
+    elseif data.state == "Game" then
+        Game.draw()
+    elseif data.state == "Pause" then
+        pauseMenu.draw()
+    end
 end
