@@ -67,6 +67,8 @@ function mouseEvents()
 					data.state = "Game"
 				elseif btn.message.text == "Continue" then
 					data.state = "Game"
+				-- elseif btn.message.text == "Settings" then
+				-- 	data.state = "Setting"
 				elseif btn.message.text == "Exit" then
 					love.event.quit()
 				end
@@ -123,9 +125,11 @@ function M.update(dt)
 end
 
 function M.draw()
+	love.graphics.push()
 	printGraphics()
 	printMessage()
 	mouseEvents()
+	love.graphics.pop()
 end
 
 return M

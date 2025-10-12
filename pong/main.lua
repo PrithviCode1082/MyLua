@@ -9,10 +9,13 @@ function love.keypressed(key)
 	end
 end
 
+data.state = "Pause"
+
 function love.load()
 	Menu.load()
 	Game.load()
 	pauseMenu.load()
+	-- settings.load()
 end
 
 function love.update(dt)
@@ -22,6 +25,8 @@ function love.update(dt)
 		Game.update(dt)
 	elseif data.state == "Pause" then
 		pauseMenu.update(dt)
+		-- elseif data.state == "Setting" then
+		-- 	settings.update(dt)
 	end
 end
 
@@ -32,5 +37,7 @@ function love.draw()
 		Game.draw()
 	elseif data.state == "Pause" then
 		pauseMenu.draw()
+		-- elseif data.state == "Setting" then
+		-- 	settings.draw()
 	end
 end
