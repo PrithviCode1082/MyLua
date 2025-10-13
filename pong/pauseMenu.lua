@@ -48,9 +48,11 @@ function PB.mouseEvents()
 		if btn.isHovered then
 			love.graphics.draw(pointerImage, mouseX, mouseY, 0, 1.5, 1.5)
 			if PB.isClicked(btn) and btn.message.text == "Resume" then
+				data.previousState = "Pause"
 				data.state = "Game"
-			-- elseif PB.isClicked(btn) and btn.message.text == "Settings" then
-			-- 	data.state = "Setting"
+			elseif PB.isClicked(btn) and btn.message.text == "Settings" then
+				data.previousState = "Pause"
+				data.state = "Setting"
 			elseif PB.isClicked(btn) and btn.message.text == "Main Menu" then
 				data.state = "Menu"
 			end
@@ -82,6 +84,7 @@ function PB.load()
 end
 
 function PB.update(dt)
+	love.graphics.setFont(PB.customFont)
 	mouseX, mouseY = love.mouse.getPosition()
 	bobbingTimer = bobbingTimer + dt
 end

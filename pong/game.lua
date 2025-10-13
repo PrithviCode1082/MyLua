@@ -1,4 +1,5 @@
 local Game = {}
+local g_data = require("data.data")
 
 function Game.reset()
 	ballX = 400
@@ -118,7 +119,7 @@ function Game.load()
 	-- Images
 	wallImage = love.graphics.newImage("Images/gameImage/wall.png")
 	padImage = love.graphics.newImage("Images/gameImage/bricks_brown.png")
-	ballImage = love.graphics.newImage("Images/gameImage/hud_player_purple.png")
+	-- ballImage = love.graphics.newImage("Images/gameImage/hud_player_purple.png")
 	bgImage = love.graphics.newImage("Images/gameImage/bg_trees.png")
 
 	-- audio
@@ -142,7 +143,12 @@ function Game.draw()
 	Game.pad(pad2X, pad2Y)
 	love.graphics.draw(padImage, pad2X - 15, pad2Y, 0, 0.4, 1.1)
 
-	love.graphics.draw(ballImage, ballX - 30, ballY - 30, 0, 0.5, 0.5)
+	for key, value in pairs(g_data.settingBlobs) do
+		if value.index == g_data.ballSelected then
+			love.graphics.draw(value.image, ballX - 30, ballY - 30, 0, 0.5, 0.5)
+			break
+		end
+	end
 
 	for i = 1, 7 do
 		Game.wall((base + (i - 1) * incr), wallY, 3.14)

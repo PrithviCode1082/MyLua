@@ -263,5 +263,36 @@ Data.settingNavs = {
 	},
 }
 
+Data.settingKeys = {
+	current = {
+		image = love.graphics.newImage("Images/settingImage/current.png"),
+		x = 635,
+		y = 407,
+		sx = 0.7,
+		sy = 0.7,
+	},
+	selectable = {
+		image = love.graphics.newImage("Images/settingImage/selective.png"),
+		x = 635,
+		y = 407,
+		sx = 0.7,
+		sy = 0.7,
+	},
+}
+
+Data.settingExit = {
+	back = {
+		image = love.graphics.newImage("Images/settingImage/s_exit.png"),
+		x = 50,
+		y = 421,
+		r = 0,
+		sx = 1,
+		sy = 1,
+	},
+}
+
+Data.ballSelected = 1
+
+Data.previousState = "Menu"
 Data.state = "Menu"
 return Data

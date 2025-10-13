@@ -14,7 +14,7 @@ function S.isHovered(btn, sx, sy)
 	return mx > btn.x and mx < btn.x + w and my > btn.y and my < btn.y + h
 end
 
-function love.mousepressed(x, y, button)
+function love.mousereleased(x, y, button)
 	if button == 1 then
 		for key, value in pairs(s_data.settingNavs) do
 			if S.isHovered(value, value.sx, value.sy) and key == "right" and selected < 4 then
@@ -24,15 +24,15 @@ function love.mousepressed(x, y, button)
 			end
 		end
 	end
+	if S.isHovered(s_data.settingExit.back, 1, 1) and s_data.previousState == "Menu" then
+		s_data.state = "Menu"
+	elseif S.isHovered(s_data.settingExit.back, 1, 1) and s_data.previousState == "Pause" then
+		s_data.state = "Pause"
+	end
 end
 
 function S.printNavButtons()
 	for key, value in pairs(s_data.settingNavs) do
-		if S.isHovered(value, value.sx, value.sy) and key == "right" and selected < 4 then
-			love.graphics.draw(S.pointerImage, mouseX, mouseY, 0, 1.5, 1.5)
-		else
-			love.graphics.draw(S.cursorImage, mouseX, mouseY, 0, 1.5, 1.5)
-		end
 		love.graphics.draw(value.image, value.x, value.y, value.r, value.sx, value.sy)
 	end
 end
@@ -56,7 +56,7 @@ function S.hills()
 	love.graphics.draw(hillsmile, 70, 534, 0, 0.55, 0.55)
 end
 
-function printBlobs()
+function S.printBlobs()
 	for key, value in pairs(s_data.settingBlobs) do
 		if value.index == selected then
 			love.graphics.draw(value.image, 145, 130, 0, 1, 1)
@@ -72,9 +72,47 @@ function printBlobs()
 	end
 end
 
+function S.mouseEvents()
+	for key, value in pairs(s_data.settingBlobs) do
+		if value.isChosen == false then
+			if S.isClicked(selectable) then
+				chosen = value.index
+				value.isChosen = true
+				s_data.ballSelected = chosen
+				-- break
+				goto continue
+			end
+		end
+		::continue::
+	end
+
+	for key, value in pairs(s_data.settingNavs) do
+		hovering = false
+		if S.isHovered(value, value.sx, value.sy) then
+			hovering = true
+			goto continue
+		end
+	end
+
+	if S.isHovered(s_data.settingExit.back, 1, 1) then
+		hovering = true
+		goto continue
+	end
+
+	for key, value in pairs(s_data.settingKeys) do
+		hovering = false
+		if S.isHovered(value, value.sx, value.sy) then
+			hovering = true
+			break
+		end
+	end
+	::continue::
+end
+
 function S.load()
 	selected = 1
 	chosen = 1
+	hovering = false
 	settingBG = love.graphics.newImage("Images/pauseImage/pauseBG.png")
 	settingPanel = love.graphics.newImage("Images/pauseImage/pauseBG.png")
 	volBtn = love.graphics.newImage("Images/settingImage/pauseBG.png")
@@ -85,7 +123,7 @@ function S.load()
 	selectable = love.graphics.newImage("Images/settingImage/selective.png")
 
 	S.myFont = love.graphics.newFont("Images/menuImage/PG.otf", 26)
-	love.graphics.setFont(S.myFont)
+	-- love.graphics.setFont(S.myFont)
 
 	S.cursorImage = love.graphics.newImage("Images/menuImage/cursor.png")
 	S.pointerImage = love.graphics.newImage("Images/menuImage/pointer.png")
@@ -93,20 +131,9 @@ function S.load()
 	-- love.mouse.setVisible(false)
 end
 
-function S.mouseEvents()
-	for key, value in pairs(s_data.settingBlobs) do
-		if value.isChosen == false then
-			if S.isClicked(selectable) then
-				chosen = value.index
-				value.isChosen = true
-				break
-			end
-		end
-	end
-end
-
 function S.update(dt)
 	mouseX, mouseY = love.mouse.getPosition()
+	love.graphics.setFont(S.myFont)
 	-- Mouse Selection events
 end
 
@@ -115,11 +142,16 @@ function S.draw()
 	love.graphics.draw(settingBG, 50, 50, 0, 2.5, 2.5)
 	love.graphics.draw(settingPanel, 400, 50, 0, 3, 4)
 	S.printNavButtons()
-	printBlobs()
+	S.printBlobs()
 	love.graphics.draw(volBtn, 200, 390, 0, 1.3, 1.3)
 	love.graphics.draw(exitBtn, 50, 421, 0, 1, 1)
 	S.hills()
-	mouseEvents()
+	S.mouseEvents()
+	if hovering then
+		love.graphics.draw(S.pointerImage, mouseX, mouseY, 0, 1.5, 1.5)
+	else
+		love.graphics.draw(S.cursorImage, mouseX, mouseY, 0, 1.5, 1.5)
+	end
 	love.graphics.pop()
 end
 

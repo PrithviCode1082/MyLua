@@ -63,12 +63,15 @@ function mouseEvents()
 			love.graphics.draw(pointerImage, mouseX, mouseY, 0, 1.5, 1.5)
 			if isClicked(btn) then
 				if btn.message.text == "Start" then
-					gm.reset()
+					if s_data.previousState == "Pause" then
+						gm.reset()
+					end
 					data.state = "Game"
 				elseif btn.message.text == "Continue" then
 					data.state = "Game"
-				-- elseif btn.message.text == "Settings" then
-				-- 	data.state = "Setting"
+				elseif btn.message.text == "Settings" then
+					data.state = "Menu"
+					data.state = "Setting"
 				elseif btn.message.text == "Exit" then
 					love.event.quit()
 				end

@@ -1,21 +1,21 @@
 local Game = require("game")
 local Menu = require("menu")
 local pauseMenu = require("pauseMenu")
+local settings = require("settings")
 local data = require("data.data")
 
 function love.keypressed(key)
 	if key == "escape" and data.state == "Game" then
+		data.previousState = "Game"
 		data.state = "Pause"
 	end
 end
-
-data.state = "Pause"
 
 function love.load()
 	Menu.load()
 	Game.load()
 	pauseMenu.load()
-	-- settings.load()
+	settings.load()
 end
 
 function love.update(dt)
@@ -25,8 +25,8 @@ function love.update(dt)
 		Game.update(dt)
 	elseif data.state == "Pause" then
 		pauseMenu.update(dt)
-		-- elseif data.state == "Setting" then
-		-- 	settings.update(dt)
+	elseif data.state == "Setting" then
+		settings.update(dt)
 	end
 end
 
@@ -37,7 +37,7 @@ function love.draw()
 		Game.draw()
 	elseif data.state == "Pause" then
 		pauseMenu.draw()
-		-- elseif data.state == "Setting" then
-		-- 	settings.draw()
+	elseif data.state == "Setting" then
+		settings.draw()
 	end
 end
