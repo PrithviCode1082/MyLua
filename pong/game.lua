@@ -42,6 +42,21 @@ function Game.checkCollision(cx, cy, radius, rx, ry, rw, rh)
 	return distanceSquared <= (radius * radius)
 end
 
+function Game.handleScore()
+	g_data.p2_score = p2Score
+	g_data.p1_score = p1Score
+
+	score2Image = love.graphics.newImage("Points/img_" .. p2Score .. ".png")
+	g_data.p2Image = love.graphics.newImage("Points/img_" .. p2Score .. ".png")
+
+	score1Image = love.graphics.newImage("Points/img_" .. p1Score .. ".png")
+	g_data.p1Image = love.graphics.newImage("Points/img_" .. p1Score .. ".png")
+
+	if p1Score == 5 or p2Score == 5 then
+		g_data.state = "Score"
+	end
+end
+
 -- Handle collition with paddles, walls
 function Game.handleCollision()
 	if ballY - 20 <= 20 or ballY + 20 >= love.graphics.getHeight() - 25 then
@@ -64,17 +79,15 @@ function Game.handleCollision()
 		ballY = 270
 		p2Score = p2Score + 1
 		pointSound:play()
-		score2Image = love.graphics.newImage("Points/img_" .. p2Score .. ".png")
-		g_data.p2Image = love.graphics.newImage("Points/img_" .. p2Score .. ".png")
 	end
 	if ballX >= 800 then
 		ballX = 400
 		ballY = 270
 		p1Score = p1Score + 1
 		pointSound:play()
-		score1Image = love.graphics.newImage("Points/img_" .. p1Score .. ".png")
-		g_data.p1Image = love.graphics.newImage("Points/img_" .. p1Score .. ".png")
 	end
+
+	Game.handleScore()
 end
 
 -- Scoreboard

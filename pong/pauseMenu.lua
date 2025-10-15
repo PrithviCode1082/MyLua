@@ -15,7 +15,7 @@ end
 function PB.printButtons()
 	for _, btn in pairs(pauesbtn.pauseButtons) do
 		love.graphics.draw(btn.image, btn.x, btn.y, 0, 2, 1.5)
-		love.graphics.setColor(0.321, 0.718, 0.533)
+		-- love.graphics.setColor(0.321, 0.718, 0.533)
 		love.graphics.setColor(0.6, 0.345, 0.165)
 		love.graphics.print(btn.message.text, btn.message.x, btn.message.y, 0, 0.5, 0.5)
 		love.graphics.setColor(1, 1, 1)

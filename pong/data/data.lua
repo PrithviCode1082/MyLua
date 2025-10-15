@@ -291,11 +291,42 @@ Data.settingExit = {
 	},
 }
 
+Data.ScoreboardBtn = {
+	Menu = {
+		image = love.graphics.newImage("Images/pauseImage/button.png"),
+		message = {
+			-- text = "Menu",
+			x = 177,
+			y = 520,
+		},
+		x = 130,
+		y = 500,
+		isHovered = false,
+		isClicked = false,
+	},
+
+	Restart = {
+		image = love.graphics.newImage("Images/pauseImage/button.png"),
+		message = {
+			-- text = "Restart",
+			x = 525,
+			y = 520,
+		},
+		x = 500,
+		y = 500,
+		isHovered = false,
+		isClicked = false,
+	},
+}
+
 Data.ballSelected = 1
 
 Data.previousState = "Menu"
 Data.state = "Menu"
 
-Data.p1Image = love.graphics.newImage("Points/img_1.png")
-Data.p2Image = love.graphics.newImage("Points/img_2.png")
+Data.p1_score = 0
+Data.p2_score = 0
+
+Data.p1Image = love.graphics.newImage("Points/img_" .. Data.p1_score .. ".png")
+Data.p2Image = love.graphics.newImage("Points/img_" .. Data.p2_score .. ".png")
 return Data
