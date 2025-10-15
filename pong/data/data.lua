@@ -295,4 +295,7 @@ Data.ballSelected = 1
 
 Data.previousState = "Menu"
 Data.state = "Menu"
+
+Data.p1Image = love.graphics.newImage("Points/img_1.png")
+Data.p2Image = love.graphics.newImage("Points/img_2.png")
 return Data

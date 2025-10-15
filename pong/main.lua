@@ -1,43 +1,32 @@
-local Game = require("game")
-local Menu = require("menu")
-local pauseMenu = require("pauseMenu")
-local settings = require("settings")
-local data = require("data.data")
+local ps_data = require("data.data")
 
-function love.keypressed(key)
-	if key == "escape" and data.state == "Game" then
-		data.previousState = "Game"
-		data.state = "Pause"
-	end
+function printPlayers()
+	love.graphics.setColor(0, 0, 0)
+	love.graphics.print("Player 1", 160, 160, 0, 1.5, 1.5)
+	love.graphics.print("Player 2", 530, 160, 0, 1.5, 1.5)
+	love.graphics.setColor(1, 1, 1)
+end
+
+function printScores()
+	love.graphics.draw(ps_data.p1Image, 150, 50, 0, 0.5, 0.5)
+	love.graphics.draw(ps_data.p2Image, 600, 50, 0, 0.5, 0.5)
+	--
 end
 
 function love.load()
-	Menu.load()
-	Game.load()
-	pauseMenu.load()
-	settings.load()
+	sb_panel_1 = love.graphics.newImage("Images/scoreImage/panel.png")
+	sb_panel_2 = love.graphics.newImage("Images/scoreImage/panel.png")
+
+	scoreFont = love.graphics.newFont("Images/menuImage/PG.otf", 25)
 end
 
 function love.update(dt)
-	if data.state == "Menu" then
-		Menu.update(dt)
-	elseif data.state == "Game" then
-		Game.update(dt)
-	elseif data.state == "Pause" then
-		pauseMenu.update(dt)
-	elseif data.state == "Setting" then
-		settings.update(dt)
-	end
+	love.graphics.setFont(scoreFont)
 end
 
 function love.draw()
-	if data.state == "Menu" then
-		Menu.draw()
-	elseif data.state == "Game" then
-		Game.draw()
-	elseif data.state == "Pause" then
-		pauseMenu.draw()
-	elseif data.state == "Setting" then
-		settings.draw()
-	end
+	love.graphics.draw(sb_panel_1, 50, 80, 0, 2.7, 3)
+	love.graphics.draw(sb_panel_2, 420, 80, 0, 2.7, 3)
+	printPlayers()
+	printScores()
 end

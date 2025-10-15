@@ -65,6 +65,7 @@ function Game.handleCollision()
 		p2Score = p2Score + 1
 		pointSound:play()
 		score2Image = love.graphics.newImage("Points/img_" .. p2Score .. ".png")
+		g_data.p2Image = love.graphics.newImage("Points/img_" .. p2Score .. ".png")
 	end
 	if ballX >= 800 then
 		ballX = 400
@@ -72,6 +73,7 @@ function Game.handleCollision()
 		p1Score = p1Score + 1
 		pointSound:play()
 		score1Image = love.graphics.newImage("Points/img_" .. p1Score .. ".png")
+		g_data.p1Image = love.graphics.newImage("Points/img_" .. p1Score .. ".png")
 	end
 end
 
