@@ -13,7 +13,7 @@
 --     return distanceSquared <= (radius * radius)
 -- end
 
--- -- Handle collition with paddles, walls 
+-- -- Handle collition with paddles, walls
 -- function handleCollision()
 --     if ballY - 20 <= 20 or ballY + 20 >= love.graphics.getHeight() - 25 then
 --         ballSpeedY = ballSpeedY * -1
@@ -113,7 +113,7 @@
 --     score2Image = love.graphics.newImage('Points/img_'..p1Score..'.png')
 --     bgImage = love.graphics.newImage('Images/bg_trees.png')
 
---     -- audio 
+--     -- audio
 --     padSound = love.audio.newSource('audio/pad.ogg', 'static')
 --     pointSound = love.audio.newSource('audio/point.ogg', 'static')
 -- end
@@ -145,4 +145,28 @@
 --     end
 
 --     scoreBoard()
+-- end
+
+-- if data.state == "Menu" then
+-- 	Menu.update(dt)
+-- elseif data.state == "Game" then
+-- 	Game.update(dt)
+-- elseif data.state == "Pause" then
+-- 	pauseMenu.update(dt)
+-- elseif data.state == "Setting" then
+-- 	settings.update(dt)
+-- elseif data.state == "Score" then
+-- 	scoreBRD.update(dt)
+-- end
+
+-- if data.state == "Menu" then
+-- 	Menu.draw()
+-- elseif data.state == "Game" then
+-- 	Game.draw()
+-- elseif data.state == "Pause" then
+-- 	pauseMenu.draw()
+-- elseif data.state == "Setting" then
+-- 	settings.draw()
+-- elseif data.state == "Score" then
+-- 	scoreBRD.draw()
 -- end

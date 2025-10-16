@@ -20,7 +20,7 @@ function PB.printButtons()
 		love.graphics.print(btn.message.text, btn.message.x, btn.message.y, 0, 0.5, 0.5)
 		love.graphics.setColor(1, 1, 1)
 
-		if isHovering(btn.image, btn.x, btn.y) then
+		if pauesbtn.isHovered(btn, 2, 1.5, mouseX, mouseY) then
 			btn.isHovered = true
 		else
 			btn.isHovered = false
@@ -29,31 +29,19 @@ function PB.printButtons()
 end
 
 -- Mouse events
-function PB.isHovering(image, x, y)
-	menuWidth = image:getWidth() * 2
-	menuHeight = image:getHeight() * 1.5
-	return mouseX > x and mouseX < x + menuWidth and mouseY > y and mouseY < y + menuHeight
-end
-
-function PB.isClicked(btn)
-	local mx, my = love.mouse.getPosition()
-	local w, h = btn.image:getWidth() * 2, btn.image:getHeight() * 1.5
-	return love.mouse.isDown(1) and mx > btn.x and mx < btn.x + w and my > btn.y and my < btn.y + h
-end
-
 function PB.mouseEvents()
 	windowWidth, windowHeight = love.graphics.getDimensions()
 
 	for _, btn in pairs(pauesbtn.pauseButtons) do
 		if btn.isHovered then
 			love.graphics.draw(pointerImage, mouseX, mouseY, 0, 1.5, 1.5)
-			if PB.isClicked(btn) and btn.message.text == "Resume" then
+			if pauesbtn.isClicked(btn, 2, 1.5, mouseX, mouseY) and btn.message.text == "Resume" then
 				data.previousState = "Pause"
 				data.state = "Game"
-			elseif PB.isClicked(btn) and btn.message.text == "Settings" then
+			elseif pauesbtn.isClicked(btn, 2, 1.5, mouseX, mouseY) and btn.message.text == "Settings" then
 				data.previousState = "Pause"
 				data.state = "Setting"
-			elseif PB.isClicked(btn) and btn.message.text == "Main Menu" then
+			elseif pauesbtn.isClicked(btn, 2, 1.5, mouseX, mouseY) and btn.message.text == "Main Menu" then
 				data.state = "Menu"
 			end
 			goto continue

@@ -5,6 +5,20 @@ local settings = require("settings")
 local scoreBRD = require("scoreBoard")
 local data = require("data.data")
 
+function returner(state)
+	if state == "Menu" then
+		return Menu
+	elseif state == "Game" then
+		return Game
+	elseif state == "Pause" then
+		return pauseMenu
+	elseif state == "Setting" then
+		return settings
+	elseif state == "Score" then
+		return scoreBRD
+	end
+end
+
 function love.keypressed(key)
 	if key == "escape" and data.state == "Game" then
 		data.previousState = "Game"
@@ -21,29 +35,9 @@ function love.load()
 end
 
 function love.update(dt)
-	if data.state == "Menu" then
-		Menu.update(dt)
-	elseif data.state == "Game" then
-		Game.update(dt)
-	elseif data.state == "Pause" then
-		pauseMenu.update(dt)
-	elseif data.state == "Setting" then
-		settings.update(dt)
-	elseif data.state == "Score" then
-		scoreBRD.update(dt)
-	end
+	returner(data.state).update(dt)
 end
 
 function love.draw()
-	if data.state == "Menu" then
-		Menu.draw()
-	elseif data.state == "Game" then
-		Game.draw()
-	elseif data.state == "Pause" then
-		pauseMenu.draw()
-	elseif data.state == "Setting" then
-		settings.draw()
-	elseif data.state == "Score" then
-		scoreBRD.draw()
-	end
+	returner(data.state).draw()
 end

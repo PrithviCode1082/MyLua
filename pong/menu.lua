@@ -2,17 +2,6 @@ data = require("data.data")
 gm = require("game")
 
 local M = {}
-M.isClicked = false
-M.clickedText = ""
-
--- Check Hovering
-function isHovering(image, x, y)
-	menuWidth = image:getWidth() * 2
-	menuHeight = image:getHeight() * 1.5
-	return mouseX > x and mouseX < x + menuWidth and mouseY > y and mouseY < y + menuHeight
-end
-
--- bobbingTimer = 0
 
 -- Print Objects
 function printObjects()
@@ -41,7 +30,7 @@ function printGraphics()
 		love.graphics.print(btn.message.text, btn.message.x, btn.message.y, 0, 0.5, 0.5)
 		love.graphics.setColor(1, 1, 1)
 
-		if isHovering(btn.image, btn.x, btn.y) then
+		if data.isHovered(btn, 2, 1.5, mouseX, mouseY) then
 			btn.isHovered = true
 		else
 			btn.isHovered = false
@@ -49,10 +38,18 @@ function printGraphics()
 	end
 end
 
-function isClicked(btn)
-	local mx, my = love.mouse.getPosition()
-	local w, h = btn.image:getWidth() * 2, btn.image:getHeight() * 1.5
-	return love.mouse.isDown(1) and mx > btn.x and mx < btn.x + w and my > btn.y and my < btn.y + h
+function menuEventReturn(text)
+	if text == "Start" then
+		gm.reset()
+		data.state = "Game"
+	elseif text == "Continue" then
+		data.state = "Game"
+	elseif text == "Settings" then
+		data.previousState = "Menu"
+		data.state = "Setting"
+	elseif text == "Exit" then
+		love.event.quit()
+	end
 end
 
 function mouseEvents()
@@ -61,20 +58,8 @@ function mouseEvents()
 	for _, btn in pairs(data.buttons) do
 		if btn.isHovered then
 			love.graphics.draw(pointerImage, mouseX, mouseY, 0, 1.5, 1.5)
-			if isClicked(btn) then
-				if btn.message.text == "Start" then
-					if s_data.previousState == "Pause" then
-						gm.reset()
-					end
-					data.state = "Game"
-				elseif btn.message.text == "Continue" then
-					data.state = "Game"
-				elseif btn.message.text == "Settings" then
-					data.state = "Menu"
-					data.state = "Setting"
-				elseif btn.message.text == "Exit" then
-					love.event.quit()
-				end
+			if data.isClicked(btn, 2, 1.5, mouseX, mouseY) then
+				menuEventReturn(btn.message.text)
 			end
 			goto continue
 		else
@@ -112,7 +97,6 @@ function M.load()
 
 	-- Font
 	customFont = love.graphics.newFont("Images/menuImage/PG.otf", 80)
-	-- customMessageFont = love.graphics.newFont("Images/menuImage/PG.otf", 40)
 
 	-- cursor
 	cursorImage = love.graphics.newImage("Images/menuImage/cursor.png")

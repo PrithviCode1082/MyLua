@@ -319,6 +319,16 @@ Data.ScoreboardBtn = {
 	},
 }
 
+function Data.isHovered(btn, sx, sy, mx, my)
+	local w, h = btn.image:getWidth() * sx, btn.image:getHeight() * sy
+	return mx > btn.x and mx < btn.x + w and my > btn.y and my < btn.y + h
+end
+
+function Data.isClicked(btn, sx, sy, mx, my)
+	local w, h = btn.image:getWidth() * sx, btn.image:getHeight() * sy
+	return love.mouse.isDown(1) and mx > btn.x and mx < btn.x + w and my > btn.y and my < btn.y + h
+end
+
 Data.ballSelected = 1
 
 Data.previousState = "Menu"

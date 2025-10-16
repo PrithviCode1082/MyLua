@@ -1,0 +1,1 @@
+Game can be run by moving to Pong folder and running the specific file according to Your operating system

@@ -2,31 +2,19 @@ s_data = require("data.data")
 
 local S = {}
 
-function S.isClicked(image)
-	local mx, my = love.mouse.getPosition()
-	local w, h = image:getWidth() * 0.7, image:getHeight() * 0.7
-	return love.mouse.isDown(1) and mx > 635 and mx < 635 + w and my > 407 and my < 407 + h
-end
-
-function S.isHovered(btn, sx, sy)
-	local mx, my = love.mouse.getPosition()
-	local w, h = btn.image:getWidth() * sx, btn.image:getHeight() * sy
-	return mx > btn.x and mx < btn.x + w and my > btn.y and my < btn.y + h
-end
-
 function love.mousereleased(x, y, button)
 	if button == 1 then
 		for key, value in pairs(s_data.settingNavs) do
-			if S.isHovered(value, value.sx, value.sy) and key == "right" and selected < 4 then
+			if s_data.isHovered(value, value.sx, value.sy, mouseX, mouseY) and key == "right" and selected < 4 then
 				selected = selected + 1
-			elseif S.isHovered(value, value.sx, value.sy) and key == "left" and selected > 1 then
+			elseif s_data.isHovered(value, value.sx, value.sy, mouseX, mouseY) and key == "left" and selected > 1 then
 				selected = selected - 1
 			end
 		end
 	end
-	if S.isHovered(s_data.settingExit.back, 1, 1) and s_data.previousState == "Menu" then
+	if s_data.isHovered(s_data.settingExit.back, 1, 1, mouseX, mouseY) and s_data.previousState == "Menu" then
 		s_data.state = "Menu"
-	elseif S.isHovered(s_data.settingExit.back, 1, 1) and s_data.previousState == "Pause" then
+	elseif s_data.isHovered(s_data.settingExit.back, 1, 1, mouseX, mouseY) and s_data.previousState == "Pause" then
 		s_data.state = "Pause"
 	end
 end
@@ -51,7 +39,6 @@ end
 
 function S.hills()
 	love.graphics.draw(hilltop, 30, 540, 0, 0.5, 0.5)
-	-- love.graphics.draw(hilltop, 10, 560, 0, 0.5, 0.5)
 	love.graphics.draw(hilltop, 110, 540, 0, 0.5, 0.5)
 	love.graphics.draw(hillsmile, 70, 534, 0, 0.55, 0.55)
 end
@@ -75,7 +62,10 @@ end
 function S.mouseEvents()
 	for key, value in pairs(s_data.settingBlobs) do
 		if value.isChosen == false then
-			if S.isClicked(selectable) then
+			S.image = selectable
+			S.x = 635
+			S.y = 407
+			if s_data.isClicked(S, 0.7, 0.7, mouseX, mouseY) then
 				chosen = value.index
 				value.isChosen = true
 				s_data.ballSelected = chosen
@@ -88,20 +78,20 @@ function S.mouseEvents()
 
 	for key, value in pairs(s_data.settingNavs) do
 		hovering = false
-		if S.isHovered(value, value.sx, value.sy) then
+		if s_data.isHovered(value, value.sx, value.sy, mouseX, mouseY) then
 			hovering = true
 			goto continue
 		end
 	end
 
-	if S.isHovered(s_data.settingExit.back, 1, 1) then
+	if s_data.isHovered(s_data.settingExit.back, 1, 1, mouseX, mouseY) then
 		hovering = true
 		goto continue
 	end
 
 	for key, value in pairs(s_data.settingKeys) do
 		hovering = false
-		if S.isHovered(value, value.sx, value.sy) then
+		if s_data.isHovered(value, value.sx, value.sy, mouseX, mouseY) then
 			hovering = true
 			break
 		end

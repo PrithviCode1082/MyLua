@@ -11,8 +11,8 @@ function Game.reset()
 	wallX = 100
 	wallY = 25
 
-	p1Score = 0
-	p2Score = 0
+	g_data.p1_score = 0
+	g_data.p2_score = 0
 
 	ballSpeedX = 150 -- Pixels per second
 	ballSpeedY = 150
@@ -22,9 +22,6 @@ function Game.reset()
 
 	pad2X = 760
 	pad2Y = 10
-
-	score1Image = love.graphics.newImage("Points/img_" .. p1Score .. ".png")
-	score2Image = love.graphics.newImage("Points/img_" .. p1Score .. ".png")
 end
 
 -- Collision
@@ -43,18 +40,27 @@ function Game.checkCollision(cx, cy, radius, rx, ry, rw, rh)
 end
 
 function Game.handleScore()
-	g_data.p2_score = p2Score
-	g_data.p1_score = p1Score
+	g_data.p2Image = love.graphics.newImage("Points/img_" .. g_data.p2_score .. ".png")
+	g_data.p1Image = love.graphics.newImage("Points/img_" .. g_data.p1_score .. ".png")
 
-	score2Image = love.graphics.newImage("Points/img_" .. p2Score .. ".png")
-	g_data.p2Image = love.graphics.newImage("Points/img_" .. p2Score .. ".png")
-
-	score1Image = love.graphics.newImage("Points/img_" .. p1Score .. ".png")
-	g_data.p1Image = love.graphics.newImage("Points/img_" .. p1Score .. ".png")
-
-	if p1Score == 5 or p2Score == 5 then
+	if g_data.p1_score == 5 or g_data.p2_score == 5 then
 		g_data.state = "Score"
 	end
+end
+
+function CollisionHandle(pad1, pad2)
+	return Game.checkCollision(ballX, ballY, 20, pad1, pad2, 30, 130)
+end
+
+function borderCheck(num)
+	ballX = 400
+	ballY = 270
+	if num == 1 then
+		g_data.p1_score = g_data.p1_score + 1
+	else
+		g_data.p2_score = g_data.p2_score + 1
+	end
+	pointSound:play()
 end
 
 -- Handle collition with paddles, walls
@@ -64,27 +70,13 @@ function Game.handleCollision()
 		wallSound:play()
 	end
 
-	if Game.checkCollision(ballX, ballY, 20, pad1X, pad1Y, 30, 130) then
+	if CollisionHandle(pad1X, pad1Y) or CollisionHandle(pad2X, pad2Y) then
 		padSound:play()
 		ballSpeedX = ballSpeedX * -1
 	end
 
-	if Game.checkCollision(ballX, ballY, 20, pad2X, pad2Y, 30, 130) then
-		ballSpeedX = ballSpeedX * -1
-		padSound:play()
-	end
-
-	if ballX <= 0 then
-		ballX = 400
-		ballY = 270
-		p2Score = p2Score + 1
-		pointSound:play()
-	end
-	if ballX >= 800 then
-		ballX = 400
-		ballY = 270
-		p1Score = p1Score + 1
-		pointSound:play()
+	if ballX <= 0 or ballX >= 800 then
+		borderCheck(ballX <= 0 and 2 or 1)
 	end
 
 	Game.handleScore()
@@ -92,8 +84,8 @@ end
 
 -- Scoreboard
 function Game.scoreBoard()
-	love.graphics.draw(score1Image, 150, 50, 0, 0.5, 0.5)
-	love.graphics.draw(score2Image, 600, 50, 0, 0.5, 0.5)
+	love.graphics.draw(g_data.p1Image, 150, 50, 0, 0.5, 0.5)
+	love.graphics.draw(g_data.p2Image, 600, 50, 0, 0.5, 0.5)
 end
 
 -- keyboard Events
@@ -134,7 +126,6 @@ function Game.load()
 	-- Images
 	wallImage = love.graphics.newImage("Images/gameImage/wall.png")
 	padImage = love.graphics.newImage("Images/gameImage/bricks_brown.png")
-	-- ballImage = love.graphics.newImage("Images/gameImage/hud_player_purple.png")
 	bgImage = love.graphics.newImage("Images/gameImage/bg_trees.png")
 
 	-- audio

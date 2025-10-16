@@ -2,12 +2,6 @@ local ps_data = require("data.data")
 local SB = {}
 local s_gm = require("game")
 
-function SB.isHovering(image, x, y)
-	menuWidth = image:getWidth() * 1.7
-	menuHeight = image:getHeight() * 1.7
-	return mouseX > x and mouseX < x + menuWidth and mouseY > y and mouseY < y + menuHeight
-end
-
 function SB.isClicked(btn)
 	local mx, my = love.mouse.getPosition()
 	local w, h = btn.image:getWidth() * 2, btn.image:getHeight() * 1.5
@@ -56,7 +50,7 @@ end
 
 function SB.sb_mouseEvents()
 	for key, btn in pairs(ps_data.ScoreboardBtn) do
-		if SB.isHovering(btn.image, btn.x, btn.y) then
+		if ps_data.isHovered(btn, 1.7, 1.7, mouseX, mouseY) then
 			love.graphics.draw(SB.pointerImage, mouseX, mouseY, 0, 1.5, 1.5)
 			if SB.isClicked(btn) and key == "Menu" then
 				s_gm.reset()
